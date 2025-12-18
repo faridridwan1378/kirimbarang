@@ -1,90 +1,78 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Form Data Pelanggan - Pengiriman Barang</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Customer Data Shipping App</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
-  <h1>Form Data Pelanggan</h1>
+  <header>
+    <h1>📦 Customer Data Shipping</h1>
+  </header>
 
-  <form id="customerForm">
-    <div class="form-row">
-      <label for="nama">Nama</label>
-      <input type="text" id="nama" required />
-    </div>
-
-    <div class="form-row">
-      <label for="alamat">Alamat</label>
-      <textarea id="alamat" required></textarea>
-    </div>
-
-    <div class="form-row">
-      <label for="telepon">Telepon</label>
-      <input type="text" id="telepon" required />
-    </div>
-
-    <div class="form-row">
-      <label for="barang">Barang</label>
-      <input type="text" id="barang" required />
-    </div>
-
-    <div class="form-row">
-      <label for="jumlah">Jumlah</label>
-      <input type="number" id="jumlah" min="1" required />
-    </div>
-
-    <div class="actions">
-      <button type="submit">Simpan Data</button>
-      <button type="button" id="btnPrintForm">Print Halaman</button>
-    </div>
-  </form>
-
-  <div class="actions secondary">
-    <button type="button" id="btnExport">Export JSON</button>
-    <input type="file" id="importFile" accept="application/json" />
-    <button type="button" id="btnImport">Import JSON</button>
-  </div>
-
-  <h2>History Data Pelanggan</h2>
-
-  <div class="filters">
-    <div class="filter-row">
-      <label for="searchInput">Cari</label>
-      <input type="text" id="searchInput" placeholder="Ketik nama/alamat/barang..." />
-    </div>
-    <div class="filter-row">
-      <label for="filterBarang">Filter Barang</label>
-      <select id="filterBarang">
-        <option value="">-- Semua --</option>
+  <!-- Login Section -->
+  <section id="login-section">
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Username" required>
+      <select id="role">
+        <option value="admin">Admin</option>
+        <option value="staff">Staff</option>
       </select>
-    </div>
-    <div class="filter-row">
-      <label for="filterJumlah">Filter Jumlah</label>
-      <select id="filterJumlah">
-        <option value="">-- Semua --</option>
-      </select>
-    </div>
-    <div class="filter-row">
-      <button type="button" id="btnPrintAllLabels">Cetak Semua Label</button>
-    </div>
-  </div>
+      <button type="submit">Login</button>
+    </form>
+  </section>
 
-  <table id="historyTable">
-    <thead>
-      <tr>
-        <th>Nama</th>
-        <th>Alamat</th>
-        <th>Telepon</th>
-        <th>Barang</th>
-        <th>Jumlah</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <!-- App Section -->
+  <main id="app" style="display:none;">
+    <!-- Form Input -->
+    <section id="form-section">
+      <h2>Add Customer</h2>
+      <form id="customer-form">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="address" placeholder="Address" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="phone" placeholder="Phone">
+        <select id="shippingMethod">
+          <option value="Regular">Regular</option>
+          <option value="Express">Express</option>
+          <option value="CourierX">CourierX</option>
+        </select>
+        <button type="submit">Save</button>
+      </form>
+    </section>
 
+    <!-- Search -->
+    <section id="search-section">
+      <input type="text" id="search" placeholder="Search customers...">
+    </section>
+
+    <!-- Customer List -->
+    <section id="list-section">
+      <h2>Customer List</h2>
+      <table id="customer-table">
+        <thead>
+          <tr>
+            <th>Name</th><th>Address</th><th>Email</th><th>Phone</th><th>Method</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Controls -->
+    <section id="controls">
+      <button id="export">Export JSON</button>
+      <input type="file" id="import" accept=".json">
+      <button id="printBatch">Print Batch Labels</button>
+      <button id="syncCloud">Sync to Cloud</button>
+    </section>
+  </main>
+
+  <!-- Toast -->
   <div id="toast"></div>
 
   <script src="script.js"></script>
