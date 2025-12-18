@@ -3,7 +3,7 @@ let historyData = [];
 let editIndex = -1;
 
 // Constants
-const LOGO_URL = "assets/logo.jpg"; // Pastikan file logo VARSHA di-upload ke path ini
+const LOGO_URL = "assets/logo.jpg"; // Pastikan logo VARSHA di-upload ke path ini
 
 // Init: load LocalStorage & bind events
 window.addEventListener("DOMContentLoaded", () => {
@@ -79,7 +79,6 @@ function renderTable() {
       </td>
     `;
 
-    // Attach events per row
     tr.querySelector('[data-action="edit"]').addEventListener("click", () => {
       const realIndex = findRealIndex(item);
       editData(realIndex);
@@ -135,7 +134,6 @@ function updateFilters() {
     filterJumlah.appendChild(opt);
   });
 
-  // Keep previous selection if still exists
   if ([...barangSet].includes(selectedBarang)) filterBarang.value = selectedBarang;
   if ([...jumlahSet].includes(selectedJumlah)) filterJumlah.value = selectedJumlah;
 }
@@ -198,6 +196,7 @@ function printLabel(index) {
       <h3 style="text-align:center; margin:12px 0 8px; color:#333;">Label Pengiriman</h3>
       <p><strong>Nama:</strong> ${escapeHTML(item.nama)}</p>
       <p><strong>Alamat:</strong> ${escapeHTML(item.alamat)}</p>
+      <p><strong>Telepon:</strong> ${escapeHTML(item.telepon)}</p>
       <p><strong>Barang:</strong> ${escapeHTML(item.barang)}</p>
       <p><strong>Jumlah:</strong> ${escapeHTML(item.jumlah)}</p>
     </div>
@@ -225,120 +224,4 @@ function printAllLabels() {
     const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${qrData}`;
 
     labelsHTML += `
-      <div style="border:2px solid #333; padding:15px; width:360px; font-family:Arial; margin:20px; background-color:#f9f9f9; page-break-inside:avoid;">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <img src="${LOGO_URL}" alt="Logo" style="width:80px; height:80px; object-fit:contain;">
-          <img src="${qrURL}" alt="QR Code" style="width:100px; height:100px;">
-        </div>
-        <h3 style="text-align:center; margin:12px 0 8px; color:#333;">Label Pengiriman</h3>
-        <p><strong>Nama:</strong> ${escapeHTML(item.nama)}</p>
-        <p><strong>Alamat:</strong> ${escapeHTML(item.alamat)}</p>
-        <p><strong>Barang:</strong> ${escapeHTML(item.barang)}</p>
-        <p><strong>Jumlah:</strong> ${escapeHTML(item.jumlah)}</p>
-      </div>
-    `;
-  });
-
-  const w = window.open("", "", "width=800,height=900");
-  w.document.write("<html><head><title>Label Pengiriman</title></head><body style='display:flex;flex-wrap:wrap;justify-content:center;'>");
-  w.document.write(labelsHTML);
-  w.document.write("</body></html>");
-  w.document.close();
-  w.focus();
-  w.print();
-  showToast("Semua label dicetak.");
-}
-
-// Export/Import JSON
-function exportJSON() {
-  if (historyData.length === 0) {
-    alert("Tidak ada data untuk diexport!");
-    return;
-  }
-  const dataStr = JSON.stringify(historyData, null, 2);
-  const blob = new Blob([dataStr], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "backup_pelanggan.json";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-
-  showToast("Data berhasil diexport.");
-}
-
-function importJSON() {
-  const fileInput = document.getElementById("importFile");
-  const file = fileInput.files[0];
-
-  if (!file) {
-    alert("Pilih file JSON terlebih dahulu!");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const importedData = JSON.parse(e.target.result);
-      if (Array.isArray(importedData)) {
-        historyData = importedData.map(sanitizeItem);
-        saveToLocalStorage();
-        renderTable();
-        updateFilters();
-        showToast("Data berhasil diimport.");
-      } else {
-        alert("Format file tidak sesuai! Harus berupa array.");
-      }
-    } catch (err) {
-      alert("Gagal membaca file JSON: " + err.message);
-    }
-  };
-  reader.readAsText(file);
-}
-
-// LocalStorage
-function saveToLocalStorage() {
-  localStorage.setItem("historyData", JSON.stringify(historyData));
-}
-
-function loadFromLocalStorage() {
-  const saved = localStorage.getItem("historyData");
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed)) {
-        historyData = parsed.map(sanitizeItem);
-      }
-    } catch {}
-  }
-}
-
-// Helpers
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.className = "show";
-  setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
-}
-
-function sanitizeItem(item) {
-  // Ensure shape and types
-  return {
-    nama: String(item.nama || "").trim(),
-    alamat: String(item.alamat || "").trim(),
-    telepon: String(item.telepon || "").trim(),
-    barang: String(item.barang || "").trim(),
-    jumlah: String(item.jumlah || "").trim(),
-  };
-}
-
-function escapeHTML(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+      <div style="border:2px solid #333; padding:15px; width:360px; font-family:Arial; margin:20px; background-color:#f9f9f9; page-break
