@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+}
+
+input, textarea {
+  margin-bottom: 10px;
+  width: 250px;
+}
+
+button {
+  margin: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+@media print {
+  form, button {
+    display: none;
+  }
+  table {
+    border: 1px solid black;
+  }
+}
