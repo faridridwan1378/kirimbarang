@@ -8,7 +8,7 @@
 <body>
   <header>
     <h1>📦 Customer Data Shipping</h1>
-    <button onclick="logout()">Logout</button>
+    <button onclick="logout()" style="display:none;" id="logoutBtn">Logout</button>
   </header>
 
   <!-- Login Section -->
@@ -16,10 +16,7 @@
     <h2>Login</h2>
     <form id="login-form">
       <input type="text" id="username" placeholder="Username" required>
-      <select id="role">
-        <option value="Admin">Admin</option>
-        <option value="Staff">Staff</option>
-      </select>
+      <input type="password" id="password" placeholder="Password" required>
       <button type="submit">Login</button>
     </form>
   </section>
