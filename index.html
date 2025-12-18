@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <title>Customer Data Shipping App</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
   <header>
@@ -18,15 +15,12 @@
     <h2>Login</h2>
     <form id="login-form">
       <input type="text" id="username" placeholder="Username" required>
-      <select id="role">
-        <option value="admin">Admin</option>
-        <option value="staff">Staff</option>
-      </select>
+      <input type="password" id="password" placeholder="Password" required>
       <button type="submit">Login</button>
     </form>
   </section>
 
-  <!-- App Section -->
+  <!-- App Section (hidden until login) -->
   <main id="app" style="display:none;">
     <!-- Form Input -->
     <section id="form-section">
@@ -68,7 +62,6 @@
       <button id="export">Export JSON</button>
       <input type="file" id="import" accept=".json">
       <button id="printBatch">Print Batch Labels</button>
-      <button id="syncCloud">Sync to Cloud</button>
     </section>
   </main>
 
