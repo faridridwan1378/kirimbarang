@@ -1,27 +1,24 @@
 let customers = JSON.parse(localStorage.getItem("customers")) || [];
 let currentUser = null;
 
-// Hardcoded users
-const users = {
-  admin: {password: "1234", role: "admin"},
-  staff: {password: "abcd", role: "staff"}
-};
-
 // Auto-save
 function saveToStorage() {
   localStorage.setItem("customers", JSON.stringify(customers));
 }
 
 // Toast
-function showToast(msg, type="success") {
+function showToast(msg, type = "success") {
   const toast = document.getElementById("toast");
   toast.textContent = msg;
   toast.className = type;
-  setTimeout(() => toast.textContent = "", 3000);
+  setTimeout(() => {
+    toast.textContent = "";
+    toast.className = "";
+  }, 3000);
 }
 
 // Render Table
-function renderTable(list=customers) {
+function renderTable(list = customers) {
   const tbody = document.querySelector("#customer-table tbody");
   tbody.innerHTML = "";
   list.forEach((c, i) => {
@@ -33,8 +30,8 @@ function renderTable(list=customers) {
       <td>${c.shippingMethod}</td>
       <td>
         <button onclick="printLabel(${i})">🖨️</button>
-        ${currentUser && currentUser.role === "admin" 
-          ? `<button onclick="deleteCustomer(${i})">❌</button>` 
+        ${currentUser && currentUser.role === "Admin"
+          ? `<button onclick="deleteCustomer(${i})">❌</button>`
           : ""}
       </td>
     </tr>`;
@@ -42,27 +39,27 @@ function renderTable(list=customers) {
   });
 }
 
-// Login
+// Login (username + dropdown role)
 document.getElementById("login-form").addEventListener("submit", e => {
   e.preventDefault();
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  const username = document.getElementById("username").value.trim();
+  const role = document.getElementById("role").value;
 
-  if (users[username] && users[username].password === password) {
-    currentUser = {username, role: users[username].role};
+  if (username && role) {
+    currentUser = { username, role };
     document.getElementById("login-section").style.display = "none";
     document.getElementById("app").style.display = "block";
-    showToast(`Welcome ${username} (${currentUser.role})`);
+    showToast(`Welcome ${username} (${role})`);
     renderTable();
   } else {
-    showToast("Invalid login","error");
+    showToast("Please enter username and select role", "error");
   }
 });
 
 // Permission Check
 function checkPermission(action) {
-  if (currentUser.role !== "admin" && action === "delete") {
-    showToast("Permission denied","error");
+  if (currentUser.role !== "Admin" && action === "delete") {
+    showToast("Permission denied", "error");
     return false;
   }
   return true;
@@ -85,21 +82,21 @@ document.getElementById("customer-form").addEventListener("submit", e => {
   e.target.reset();
 });
 
-// Delete (restricted to admin)
+// Delete Customer
 function deleteCustomer(i) {
   if (!checkPermission("delete")) return;
-  customers.splice(i,1);
+  customers.splice(i, 1);
   saveToStorage();
   renderTable();
-  showToast("Customer deleted","error");
+  showToast("Customer deleted", "error");
 }
 
 // Print Label
 function printLabel(i) {
   const c = customers[i];
   const label = `
-    Name: ${c.name}\n
-    Address: ${c.address}\n
+    Name: ${c.name}
+    Address: ${c.address}
     Method: ${c.shippingMethod}
   `;
   alert("Printing Label:\n" + label);
@@ -107,12 +104,12 @@ function printLabel(i) {
 
 // Batch Print
 document.getElementById("printBatch").addEventListener("click", () => {
-  customers.forEach((c,i) => printLabel(i));
+  customers.forEach((_, i) => printLabel(i));
 });
 
-// Export
+// Export JSON
 document.getElementById("export").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(customers,null,2)], {type:"application/json"});
+  const blob = new Blob([JSON.stringify(customers, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -121,7 +118,7 @@ document.getElementById("export").addEventListener("click", () => {
   showToast("Exported JSON!");
 });
 
-// Import
+// Import JSON
 document.getElementById("import").addEventListener("change", e => {
   const file = e.target.files[0];
   const reader = new FileReader();
