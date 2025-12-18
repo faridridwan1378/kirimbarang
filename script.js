@@ -163,34 +163,4 @@ document.getElementById("printBatch").addEventListener("click", () => {
 // Export JSON
 document.getElementById("export").addEventListener("click", () => {
   const blob = new Blob([JSON.stringify(customers, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "customers.json";
-  a.click();
-  showToast("Exported JSON!");
-});
-
-// Import JSON
-document.getElementById("import").addEventListener("change", e => {
-  const file = e.target.files[0];
-  const reader = new FileReader();
-  reader.onload = () => {
-    customers = JSON.parse(reader.result);
-    saveToStorage();
-    renderTable();
-    showToast("Imported JSON!");
-  };
-  reader.readAsText(file);
-});
-
-// Search
-document.getElementById("search").addEventListener("input", e => {
-  const q = e.target.value.toLowerCase();
-  const filtered = customers.filter(c =>
-    c.name.toLowerCase().includes(q) ||
-    c.address.toLowerCase().includes(q) ||
-    c.email.toLowerCase().includes(q)
-  );
-  renderTable(filtered);
-});
+ 
