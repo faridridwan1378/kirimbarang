@@ -45,7 +45,7 @@ function renderTable(list = customers) {
   });
 }
 
-// Login with password
+// Login
 document.getElementById("login-form").addEventListener("submit", e => {
   e.preventDefault();
   const username = document.getElementById("username").value.trim();
@@ -164,4 +164,10 @@ document.getElementById("printBatch").addEventListener("click", () => {
   batchWindow.document.write('</body></html>');
   batchWindow.document.close();
   batchWindow.focus();
-  batch
+  batchWindow.print();
+  batchWindow.close();
+});
+
+// Export JSON
+document.getElementById("export").addEventListener("click", () => {
+ 
