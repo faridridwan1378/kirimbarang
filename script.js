@@ -72,3 +72,37 @@ function exportJSON() {
   dlAnchor.setAttribute("download", "backup_pelanggan.json");
   dlAnchor.click();
 }
+
+document.getElementById("searchInput").addEventListener("input", function() {
+  const keyword = this.value.toLowerCase();
+  renderTable(keyword);
+});
+
+function renderTable(filter = "") {
+  const tbody = document.querySelector("#historyTable tbody");
+  tbody.innerHTML = "";
+
+  historyData
+    .filter(item => 
+      item.nama.toLowerCase().includes(filter) ||
+      item.alamat.toLowerCase().includes(filter) ||
+      item.barang.toLowerCase().includes(filter)
+    )
+    .forEach((item, index) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${item.nama}</td>
+        <td>${item.alamat}</td>
+        <td>${item.telepon}</td>
+        <td>${item.barang}</td>
+        <td>${item.jumlah}</td>
+        <td>
+          <button onclick="editData(${index})">Edit</button>
+          <button onclick="deleteData(${index})">Delete</button>
+        </td>
+      `;
+
+      tbody.appendChild(row);
+    });
+    }
