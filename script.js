@@ -1,19 +1,11 @@
-// Firebase Config (replace with your project keys)
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-
-// Init Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
 let customers = JSON.parse(localStorage.getItem("customers")) || [];
 let currentUser = null;
+
+// Hardcoded users
+const users = {
+  admin: {password: "1234", role: "admin"},
+  staff: {password: "abcd", role: "staff"}
+};
 
 // Auto-save
 function saveToStorage() {
@@ -54,12 +46,17 @@ function renderTable(list=customers) {
 document.getElementById("login-form").addEventListener("submit", e => {
   e.preventDefault();
   const username = document.getElementById("username").value;
-  const role = document.getElementById("role").value;
-  currentUser = {username, role};
-  document.getElementById("login-section").style.display = "none";
-  document.getElementById("app").style.display = "block";
-  showToast(`Welcome ${username} (${role})`);
-  renderTable();
+  const password = document.getElementById("password").value;
+
+  if (users[username] && users[username].password === password) {
+    currentUser = {username, role: users[username].role};
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    showToast(`Welcome ${username} (${currentUser.role})`);
+    renderTable();
+  } else {
+    showToast("Invalid login","error");
+  }
 });
 
 // Permission Check
@@ -146,16 +143,4 @@ document.getElementById("search").addEventListener("input", e => {
     c.email.toLowerCase().includes(q)
   );
   renderTable(filtered);
-});
-
-// Cloud Sync
-document.getElementById("syncCloud").addEventListener("click", async () => {
-  try {
-    for (let c of customers) {
-      await db.collection("customers").add(c);
-    }
-    showToast("Synced to Cloud!");
-  } catch (err) {
-    showToast("Cloud sync failed","error");
-  }
 });
