@@ -106,3 +106,10 @@ function renderTable(filter = "") {
       tbody.appendChild(row);
     });
     }
+
+function updateFilters() {
+  const barangSet = new Set(historyData.map(item => item.barang));
+  const jumlahSet = new Set(historyData.map(item => item.jumlah));
+
+  const filterBarang = document.getElementById("filterBarang");
+  const filterJumlah = document
