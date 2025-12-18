@@ -8,7 +8,7 @@
 <body>
   <header>
     <h1>📦 Customer Data Shipping</h1>
-    <button onclick="logout()" style="display:none;" id="logoutBtn">Logout</button>
+    <button onclick="logout()" id="logoutBtn" style="display:none;">Logout</button>
   </header>
 
   <!-- Login Section -->
@@ -23,7 +23,6 @@
 
   <!-- App Section -->
   <main id="app" style="display:none;">
-    <!-- Form Input -->
     <section id="form-section">
       <h2>Add Customer</h2>
       <form id="customer-form">
@@ -40,12 +39,10 @@
       </form>
     </section>
 
-    <!-- Search -->
     <section id="search-section">
       <input type="text" id="search" placeholder="Search customers...">
     </section>
 
-    <!-- Customer List -->
     <section id="list-section">
       <h2>Customer List</h2>
       <table id="customer-table">
@@ -58,7 +55,6 @@
       </table>
     </section>
 
-    <!-- Controls -->
     <section id="controls">
       <button id="export">Export JSON</button>
       <input type="file" id="import" accept=".json">
@@ -66,7 +62,6 @@
     </section>
   </main>
 
-  <!-- Toast -->
   <div id="toast"></div>
 
   <script src="script.js"></script>
