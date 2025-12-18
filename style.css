@@ -1,13 +1,9 @@
-/* Layout & typography */
-* { box-sizing: border-box; }
 body {
   font-family: Arial, sans-serif;
   margin: 24px;
   color: #222;
 }
-h1, h2 {
-  margin: 0 0 14px;
-}
+h1, h2 { margin: 0 0 14px; }
 
 /* Form styling */
 form {
@@ -28,10 +24,7 @@ form {
   font-weight: bold;
   padding-top: 8px;
 }
-.form-row input,
-.form-row textarea,
-.filters input,
-.filters select {
+input, textarea, select {
   flex: 1;
   padding: 8px;
   border: 1px solid #bbb;
@@ -40,14 +33,8 @@ form {
 }
 textarea { min-height: 80px; }
 
-.actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 8px;
-}
-.actions.secondary {
-  margin: 10px 0 20px;
-}
+.actions { display: flex; gap: 12px; margin-top: 8px; }
+.actions.secondary { margin: 10px 0 20px; }
 
 button {
   padding: 10px 14px;
@@ -67,11 +54,7 @@ button:hover { background: #0f5bd1; }
   gap: 12px;
   margin-bottom: 10px;
 }
-.filter-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+.filter-row { display: flex; gap: 10px; align-items: center; }
 .filter-row label { font-weight: bold; }
 
 /* Table */
@@ -85,7 +68,6 @@ th, td {
   padding: 10px;
   border-bottom: 1px solid #eee;
   text-align: left;
-  vertical-align: top;
 }
 thead th {
   background: #f0f4ff;
@@ -95,13 +77,10 @@ td button {
   margin-right: 6px;
   background: #444;
 }
-td button:hover { background: #222; }
 td button.edit { background: #ff9f1a; }
-td button.edit:hover { background: #d88210; }
 td button.delete { background: #e74c3c; }
-td button.delete:hover { background: #c0392b; }
 td button.print { background: #2ecc71; }
-td button.print:hover { background: #27ae60; }
+td button:hover { opacity: 0.9; }
 
 /* Toast notification */
 #toast {
@@ -137,7 +116,5 @@ td button.print:hover { background: #27ae60; }
   .filters, form, .actions, .actions.secondary, #toast {
     display: none !important;
   }
-  table {
-    border: 1px solid #000;
-  }
+  table { border: 1px solid #000; }
 }
