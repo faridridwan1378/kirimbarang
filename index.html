@@ -25,26 +25,13 @@
     <input type="number" id="jumlah" required><br>
 
     <button type="submit">Simpan Data</button>
-    <button type="button" onclick="printForm()">Print</button>
-    <button type="button" onclick="exportJSON()">Export JSON</button>
   </form>
 
-<label>Cari Data:</label>
-<input type="text" id="searchInput" placeholder="Ketik nama/alamat/barang...">
+  <button type="button" onclick="printForm()">Print</button>
+  <button type="button" onclick="exportJSON()">Export JSON</button>
 
-<label>Filter Barang:</label>
-<select id="filterBarang">
-  <option value="">-- Semua --</option>
-</select>
-
-<label>Filter Jumlah:</label>
-<select id="filterJumlah">
-  <option value="">-- Semua --</option>
-</select>
-
-  
   <h2>History Data Pelanggan</h2>
-    <table id="historyTable">
+  <table id="historyTable">
     <thead>
       <tr>
         <th>Nama</th>
