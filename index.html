@@ -1,36 +1,76 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Form Data Pelanggan</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Data Pelanggan - Pengiriman Barang</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Form Data Pelanggan</h1>
-  
+
   <form id="customerForm">
-    <label>Nama:</label>
-    <input type="text" id="nama" required><br>
+    <div class="form-row">
+      <label for="nama">Nama</label>
+      <input type="text" id="nama" required />
+    </div>
 
-    <label>Alamat:</label>
-    <textarea id="alamat" required></textarea><br>
+    <div class="form-row">
+      <label for="alamat">Alamat</label>
+      <textarea id="alamat" required></textarea>
+    </div>
 
-    <label>No. Telepon:</label>
-    <input type="text" id="telepon" required><br>
+    <div class="form-row">
+      <label for="telepon">Telepon</label>
+      <input type="text" id="telepon" required />
+    </div>
 
-    <label>Barang:</label>
-    <input type="text" id="barang" required><br>
+    <div class="form-row">
+      <label for="barang">Barang</label>
+      <input type="text" id="barang" required />
+    </div>
 
-    <label>Jumlah:</label>
-    <input type="number" id="jumlah" required><br>
+    <div class="form-row">
+      <label for="jumlah">Jumlah</label>
+      <input type="number" id="jumlah" min="1" required />
+    </div>
 
-    <button type="submit">Simpan Data</button>
+    <div class="actions">
+      <button type="submit">Simpan Data</button>
+      <button type="button" id="btnPrintForm">Print Halaman</button>
+    </div>
   </form>
 
-  <button type="button" onclick="printForm()">Print</button>
-  <button type="button" onclick="exportJSON()">Export JSON</button>
+  <div class="actions secondary">
+    <button type="button" id="btnExport">Export JSON</button>
+    <input type="file" id="importFile" accept="application/json" />
+    <button type="button" id="btnImport">Import JSON</button>
+  </div>
 
   <h2>History Data Pelanggan</h2>
+
+  <div class="filters">
+    <div class="filter-row">
+      <label for="searchInput">Cari</label>
+      <input type="text" id="searchInput" placeholder="Ketik nama/alamat/barang..." />
+    </div>
+    <div class="filter-row">
+      <label for="filterBarang">Filter Barang</label>
+      <select id="filterBarang">
+        <option value="">-- Semua --</option>
+      </select>
+    </div>
+    <div class="filter-row">
+      <label for="filterJumlah">Filter Jumlah</label>
+      <select id="filterJumlah">
+        <option value="">-- Semua --</option>
+      </select>
+    </div>
+    <div class="filter-row">
+      <button type="button" id="btnPrintAllLabels">Cetak Semua Label</button>
+    </div>
+  </div>
+
   <table id="historyTable">
     <thead>
       <tr>
@@ -44,6 +84,8 @@
     </thead>
     <tbody></tbody>
   </table>
+
+  <div id="toast"></div>
 
   <script src="script.js"></script>
 </body>
