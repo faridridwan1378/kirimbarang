@@ -1,6 +1,12 @@
 let customers = JSON.parse(localStorage.getItem("customers")) || [];
 let currentUser = null;
 
+// Hardcoded users
+const users = {
+  admin: { password: "1234", role: "Admin" },
+  staff: { password: "abcd", role: "Staff" }
+};
+
 // Auto-save
 function saveToStorage() {
   localStorage.setItem("customers", JSON.stringify(customers));
@@ -39,20 +45,21 @@ function renderTable(list = customers) {
   });
 }
 
-// Login
+// Login with password
 document.getElementById("login-form").addEventListener("submit", e => {
   e.preventDefault();
   const username = document.getElementById("username").value.trim();
-  const role = document.getElementById("role").value;
+  const password = document.getElementById("password").value;
 
-  if (username && role) {
-    currentUser = { username, role };
+  if (users[username] && users[username].password === password) {
+    currentUser = { username, role: users[username].role };
     document.getElementById("login-section").style.display = "none";
     document.getElementById("app").style.display = "block";
-    showToast(`Welcome ${username} (${role})`);
+    document.getElementById("logoutBtn").style.display = "inline-block";
+    showToast(`Welcome ${username} (${currentUser.role})`);
     renderTable();
   } else {
-    showToast("Please enter username and select role", "error");
+    showToast("Invalid login", "error");
   }
 });
 
@@ -61,6 +68,7 @@ function logout() {
   currentUser = null;
   document.getElementById("app").style.display = "none";
   document.getElementById("login-section").style.display = "block";
+  document.getElementById("logoutBtn").style.display = "none";
   showToast("Logged out");
 }
 
@@ -99,7 +107,7 @@ function deleteCustomer(i) {
   showToast("Customer deleted", "error");
 }
 
-// Print Label (single)
+// Print Label
 function printLabel(i) {
   const c = customers[i];
   const labelWindow = window.open('', '', 'width=400,height=600');
@@ -156,11 +164,4 @@ document.getElementById("printBatch").addEventListener("click", () => {
   batchWindow.document.write('</body></html>');
   batchWindow.document.close();
   batchWindow.focus();
-  batchWindow.print();
-  batchWindow.close();
-});
-
-// Export JSON
-document.getElementById("export").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(customers, null, 2)], { type: "application/json" });
- 
+  batch
