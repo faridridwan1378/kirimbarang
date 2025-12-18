@@ -39,7 +39,7 @@ function renderTable(list = customers) {
   });
 }
 
-// Login (username + dropdown role)
+// Login
 document.getElementById("login-form").addEventListener("submit", e => {
   e.preventDefault();
   const username = document.getElementById("username").value.trim();
@@ -55,6 +55,14 @@ document.getElementById("login-form").addEventListener("submit", e => {
     showToast("Please enter username and select role", "error");
   }
 });
+
+// Logout
+function logout() {
+  currentUser = null;
+  document.getElementById("app").style.display = "none";
+  document.getElementById("login-section").style.display = "block";
+  showToast("Logged out");
+}
 
 // Permission Check
 function checkPermission(action) {
@@ -91,20 +99,65 @@ function deleteCustomer(i) {
   showToast("Customer deleted", "error");
 }
 
-// Print Label
+// Print Label (single)
 function printLabel(i) {
   const c = customers[i];
-  const label = `
-    Name: ${c.name}
-    Address: ${c.address}
-    Method: ${c.shippingMethod}
-  `;
-  alert("Printing Label:\n" + label);
+  const labelWindow = window.open('', '', 'width=400,height=600');
+  labelWindow.document.write(`
+    <html>
+      <head>
+        <title>Shipping Label</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin:20px; }
+          .label { border:1px solid #000; padding:15px; width:300px; }
+          h2 { text-align:center; margin-bottom:20px; }
+          .qr { text-align:center; margin-top:20px; }
+          .sender { margin-top:20px; font-weight:bold; text-align:center; }
+        </style>
+      </head>
+      <body>
+        <div class="label">
+          <h2>📦 Shipping Label</h2>
+          <p><strong>Name:</strong> ${c.name}</p>
+          <p><strong>Address:</strong> ${c.address}</p>
+          <p><strong>Email:</strong> ${c.email}</p>
+          <p><strong>Phone:</strong> ${c.phone}</p>
+          <p><strong>Method:</strong> ${c.shippingMethod}</p>
+          <div class="qr">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(c.name + '|' + c.address)}" alt="QR Code">
+          </div>
+          <div class="sender">Pengirim: Versha Fruits & Goods</div>
+        </div>
+      </body>
+    </html>
+  `);
+  labelWindow.document.close();
+  labelWindow.focus();
+  labelWindow.print();
+  labelWindow.close();
 }
 
 // Batch Print
 document.getElementById("printBatch").addEventListener("click", () => {
-  customers.forEach((_, i) => printLabel(i));
+  const batchWindow = window.open('', '', 'width=600,height=800');
+  batchWindow.document.write('<html><head><title>Batch Labels</title></head><body><h2>Batch Shipping Labels</h2>');
+  customers.forEach(c => {
+    batchWindow.document.write(`
+      <div style="margin-bottom:20px; border:1px solid #000; padding:10px; width:300px;">
+        <p><strong>Name:</strong> ${c.name}</p>
+        <p><strong>Address:</strong> ${c.address}</p>
+        <p><strong>Email:</strong> ${c.email}</p>
+        <p><strong>Phone:</strong> ${c.phone}</p>
+        <p><strong>Method:</strong> ${c.shippingMethod}</p>
+        <p style="font-weight:bold; text-align:center;">Pengirim: Versha Fruits & Goods</p>
+      </div>
+    `);
+  });
+  batchWindow.document.write('</body></html>');
+  batchWindow.document.close();
+  batchWindow.focus();
+  batchWindow.print();
+  batchWindow.close();
 });
 
 // Export JSON
