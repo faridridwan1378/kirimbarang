@@ -1,120 +1,46 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 24px;
-  color: #222;
+  margin: 0; padding: 0;
+  background: #f4f4f4;
+  color: #333;
 }
-h1, h2 { margin: 0 0 14px; }
 
-/* Form styling */
-form {
-  border: 1px solid #ddd;
-  padding: 16px;
-  border-radius: 8px;
-  background: #fafafa;
-  margin-bottom: 16px;
+header {
+  background: #0077cc;
+  color: white;
+  padding: 1rem;
+  text-align: center;
 }
-.form-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-  align-items: flex-start;
-}
-.form-row label {
-  width: 140px;
-  font-weight: bold;
-  padding-top: 8px;
-}
-input, textarea, select {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #bbb;
-  border-radius: 6px;
-  font-size: 14px;
-}
-textarea { min-height: 80px; }
 
-.actions { display: flex; gap: 12px; margin-top: 8px; }
-.actions.secondary { margin: 10px 0 20px; }
-
-button {
-  padding: 10px 14px;
-  border: none;
-  background: #1677ff;
-  color: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
+main {
+  padding: 1rem;
 }
-button:hover { background: #0f5bd1; }
 
-/* Filters */
-.filters {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(180px, 1fr));
-  gap: 12px;
-  margin-bottom: 10px;
+form input, form select, form button {
+  margin: 0.3rem;
+  padding: 0.5rem;
 }
-.filter-row { display: flex; gap: 10px; align-items: center; }
-.filter-row label { font-weight: bold; }
 
-/* Table */
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border: 1px solid #ddd;
+  margin-top: 1rem;
 }
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
   text-align: left;
 }
-thead th {
-  background: #f0f4ff;
-  border-bottom: 1px solid #ddd;
-}
-td button {
-  margin-right: 6px;
-  background: #444;
-}
-td button.edit { background: #ff9f1a; }
-td button.delete { background: #e74c3c; }
-td button.print { background: #2ecc71; }
-td button:hover { opacity: 0.9; }
 
-/* Toast notification */
+button {
+  padding: 0.4rem 0.8rem;
+  margin: 0.2rem;
+  cursor: pointer;
+}
+
 #toast {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 4px;
-  padding: 12px;
   position: fixed;
-  z-index: 1000;
-  left: 50%;
-  bottom: 30px;
-  font-size: 14px;
-}
-#toast.show {
-  visibility: visible;
-  animation: fadein 0.4s, fadeout 0.4s 2.6s;
-}
-@keyframes fadein {
-  from { bottom: 10px; opacity: 0; }
-  to   { bottom: 30px; opacity: 1; }
-}
-@keyframes fadeout {
-  from { bottom: 30px; opacity: 1; }
-  to   { bottom: 50px; opacity: 0; }
-}
-
-/* Print */
-@media print {
-  .filters, form, .actions, .actions.secondary, #toast {
-    display: none !important;
-  }
-  table { border: 1px solid #000; }
-}
+  bottom: 1rem;
+  right: 1rem;
+  background: #333
